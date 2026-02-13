@@ -1,5 +1,12 @@
 #!/bin/bash
-set -euo pipefail
+# set -euo pipefail  this line in the original source script caused it to fail on new Ubuntu 24.04.3 isntalls
+# Django error fixed with ALTER DATABASE netbox OWNER TO netbox; ~line 91 https://github.com/netbox-community/netbox/discussions/11314
+# commenting out ~line 115 chown -R netbox /opt/netbox/netbox/media/ as that fails with 4.5.2 which doesn't have that folder
+# API_TOKEN_PEPPERS is not defineid. v2 API tokens cannot be used." 
+# note that creds are stored in root user's home folder so 'sudo -i' to get over to them (or similar commands)
+
+
+set -eux  # added 'x' to watch all output
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -83,7 +90,7 @@ function postgres {
 
   su - postgres -c "psql -c 'CREATE DATABASE netbox;'" 
   su - postgres -c "psql -c \"CREATE USER netbox WITH PASSWORD '$POSTGRESPW';\""
-  su - postgres -c "psql -c 'GRANT ALL PRIVILEGES ON DATABASE netbox TO netbox;'"
+  su - postgres -c "psql -c 'ALTER DATABASE netbox OWNER TO netbox;'"
 
   clear
 }
@@ -110,7 +117,7 @@ function netbox {
   ln -s /opt/netbox-${VERSION}/ /opt/netbox
 
   adduser --system --group netbox
-  chown -R netbox /opt/netbox/netbox/media/
+#  chown -R netbox /opt/netbox/netbox/media/
 
   cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py
 
