@@ -1,5 +1,7 @@
 #!/bin/bash
-# set -euo pipefail  this line in the original source script caused it to fail on new Ubuntu 24.04.3 isntalls
+
+# recommend to run script from console and not an ssh session
+# changed 'set -euo pipefail'  this line in the original source script caused it to fail on new Ubuntu 24.04.3 installs
 # Django error fixed with ALTER DATABASE netbox OWNER TO netbox; ~line 91 https://github.com/netbox-community/netbox/discussions/11314
 # commenting out ~line 115 chown -R netbox /opt/netbox/netbox/media/ as that fails with 4.5.2 which doesn't have that folder
 # API_TOKEN_PEPPERS is not defineid. v2 API tokens cannot be used." 
