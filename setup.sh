@@ -8,7 +8,7 @@
 # note that creds are stored in root user's home folder so 'sudo -i' to get over to them (or similar commands)
 
 
-set -eux  # added 'x' to watch all output
+set -eu
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -275,7 +275,7 @@ function write_credentials {
     echo "NetBox version: $VERSION"
     echo "PostgreSQL password: $POSTGRESPW"
     echo "Secret Key: $SECRET_KEY"
-    echo "Peppers Token: $APIT_TOKEN_PEPPERS"
+    echo "Peppers Token: $API_TOKEN_PEPPERS"
   } > "$credfile"
   chmod 600 "$credfile"
 }
