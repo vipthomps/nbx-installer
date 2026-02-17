@@ -16,6 +16,7 @@ NC='\033[0m'
 
 POSTGRESPW=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w25 | head -n1)
 SECRET_KEY=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w55 | head -n1)
+API_TOKEN_PEPPERS=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w55 | head -n1)
 
 clear
 
@@ -121,17 +122,17 @@ function netbox {
   adduser --system --group netbox
 #  chown -R netbox /opt/netbox/netbox/media/
 
+
+API_TOKEN_PEPPERS=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w55 | head -n1)
+
+
   cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py
 
   sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/" /opt/netbox/netbox/netbox/configuration.py
   sed -i "s/'USER': '',/'USER': 'netbox',/" /opt/netbox/netbox/netbox/configuration.py
   sed -i "0,/'PASSWORD':/ s/'PASSWORD': '',/'PASSWORD': '$POSTGRESPW',/" /opt/netbox/netbox/netbox/configuration.py
   sed -i "s/SECRET_KEY = ''/SECRET_KEY = '${SECRET_KEY}'/" /opt/netbox/netbox/netbox/configuration.py
-
-  /opt/netbox/upgrade.sh
-  rm v${VERSION}.tar.gz
-  clear
-}
+  sed -i "s/API_TOKEN_PEPPERS = {}/API_TOKEN_PEPPERS = {\n    1: '${API_TOKEN_PEPPERS}',\n}/" /opt/netbox/netbox/netbox/configuration.py
 
 function netboxsuperuser {
   echo -e "----------------------------------------------------"
