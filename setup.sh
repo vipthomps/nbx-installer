@@ -4,7 +4,7 @@
 # changed 'set -euo pipefail'  this line in the original source script caused it to fail on new Ubuntu 24.04.3 installs
 # Django error fixed with ALTER DATABASE netbox OWNER TO netbox; ~line 91 https://github.com/netbox-community/netbox/discussions/11314
 # commenting out ~line 115 chown -R netbox /opt/netbox/netbox/media/ as that fails with 4.5.2 which doesn't have that folder
-# API_TOKEN_PEPPERS is not defineid. v2 API tokens cannot be used." 
+# API_TOKEN_PEPPERS is now defined and added to configuration.py
 # note that creds are stored in root user's home folder so 'sudo -i' to get over to them (or similar commands)
 
 
