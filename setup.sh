@@ -133,6 +133,10 @@ API_TOKEN_PEPPERS=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w55 | head -n1)
   sed -i "0,/'PASSWORD':/ s/'PASSWORD': '',/'PASSWORD': '$POSTGRESPW',/" /opt/netbox/netbox/netbox/configuration.py
   sed -i "s/SECRET_KEY = ''/SECRET_KEY = '${SECRET_KEY}'/" /opt/netbox/netbox/netbox/configuration.py
   sed -i "s/API_TOKEN_PEPPERS = {}/API_TOKEN_PEPPERS = {\n    1: '${API_TOKEN_PEPPERS}',\n}/" /opt/netbox/netbox/netbox/configuration.py
+
+  /opt/netbox/upgrade.sh
+  rm v${VERSION}.tar.gz
+  clear
 }
 
 function netboxsuperuser {
