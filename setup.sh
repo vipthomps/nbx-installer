@@ -270,6 +270,7 @@ function write_credentials {
     echo "NetBox version: $VERSION"
     echo "PostgreSQL password: $POSTGRESPW"
     echo "Secret Key: $SECRET_KEY"
+    echo "Peppers Token: $APIT_TOKEN_PEPPERS"
   } > "$credfile"
   chmod 600 "$credfile"
 }
