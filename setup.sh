@@ -10,6 +10,11 @@
 
 set -eu
 
+# Log all output to file and terminal
+LOGFILE="/root/netbox-install-$(date +%Y%m%d-%H%M%S).log"
+exec > >(tee -a "$LOGFILE") 2>&1
+echo "Logging to: $LOGFILE"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
